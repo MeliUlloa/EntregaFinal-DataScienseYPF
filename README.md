@@ -1,163 +1,167 @@
-🌳 Análisis de la Deforestación en Argentina (2001–2020) — Proyecto de Ciencia de Datos y Machine Learning
-👥 Grupo 12
-Integrantes:
+# 🌳 Análisis de la Deforestación en Argentina (2001–2020)
 
-Cruz Nicole
+📊 Proyecto de Ciencia de Datos y Machine Learning  
+👥 **Grupo 12 — Integrantes:**  
+- Cruz Nicole  
+- Ulloa Soto Melina Gimena  
 
-Ulloa Soto Melina Gimena
+---
 
-📘 Introducción
-La deforestación es uno de los desafíos ambientales más importantes en Argentina y el mundo. Este proyecto busca analizar, visualizar y predecir el comportamiento de la deforestación entre 2001 y 2020 a través de técnicas de ciencia de datos y machine learning.
+## 📘 Introducción
 
-Aplicamos tanto modelos supervisados (como Random Forest) como no supervisados (como KMeans) para detectar patrones, hacer predicciones y agrupar provincias según su nivel de impacto. Todo con el objetivo de generar conocimiento que pueda contribuir al diseño de políticas públicas y estrategias de conservación.
+La **deforestación** es uno de los desafíos ambientales más importantes en Argentina y el mundo.  
+Este proyecto busca **analizar, visualizar y predecir** el comportamiento de la deforestación entre 2001 y 2020 utilizando técnicas de **ciencia de datos** y **machine learning**.
 
-🔄 Este proyecto está diseñado como una base sólida para futuras extensiones, incluyendo el análisis de reservas naturales, variables climáticas, socioeconómicas o el uso de imágenes satelitales.
+Aplicamos modelos:
+- **Supervisados**: `Random Forest` para predicción.  
+- **No supervisados**: `KMeans` para detección de patrones y agrupamiento de provincias según impacto ambiental.
 
-🎯 Objetivos
-Analizar la evolución de la deforestación en Argentina entre 2001 y 2020.
+📌 El objetivo es generar conocimiento útil para el diseño de **políticas públicas** y estrategias de conservación.
 
-Detectar patrones temporales y espaciales de pérdida de cobertura vegetal.
+---
 
-Predecir la deforestación futura con modelos supervisados.
+## 🎯 Objetivos
 
-Agrupar provincias por comportamiento mediante modelos no supervisados.
+- Analizar la evolución de la deforestación en Argentina entre 2001 y 2020.  
+- Detectar **patrones temporales y espaciales** de pérdida de cobertura vegetal.  
+- Predecir la deforestación futura mediante modelos supervisados.  
+- Agrupar provincias por comportamiento con modelos no supervisados.  
+- Proveer herramientas analíticas para el diseño de políticas ambientales.
 
-Proveer herramientas de análisis que sirvan como base para políticas ambientales.
+---
 
-📂 Estructura del Repositorio
-Copiar
-Editar
-├── README.md
-├── datasets/
+## 📂 Estructura del Repositorio
+
+```
+📦 deforestacion-argentina/
+├── 📁 datasets/
 │   ├── Argentina_Deforestacion.csv
 │   └── Dataset_Forest_ConservationAreas_Funding_inSouthAmerica_PAN2024.csv
-├── notebooks/
+├── 📁 notebooks/
 │   ├── analisis_supervisado.ipynb
 │   └── clustering_no_supervisado.ipynb
-├── visualizaciones/
+├── 📁 visualizaciones/
 │   └── mapas, heatmaps, gráficos por región
+└── 📄 README.md
+```
 
-📊 Datasets Utilizados
-📌 Dataset 1 — Argentina_Deforestacion.csv
-Fuente: Plataforma Trase
+---
 
-Filas: 2.381
+## 📊 Datasets Utilizados
 
-Variables: Año, región, provincia (parent_region), hectáreas deforestadas
+### 📌 Dataset 1 — *Argentina_Deforestacion.csv*  
+**Fuente:** Plataforma Trase  
+- Filas: 2.381  
+- Variables: Año, región, provincia (`parent_region`), hectáreas deforestadas  
 
-📌 Dataset 2 — Conservación de Bosques y Fondos PAN
-Filas originales: 10.328
+### 📌 Dataset 2 — *Conservación de Bosques y Fondos PAN*  
+- Filas: 10.328  
+- Complementa información faltante del primer dataset  
+- Se unificaron: **11.417 observaciones**
 
-Aportó información adicional sobre regiones y años no presentes en el primero.
+---
 
-➡️ Se unificaron 11.417 observaciones, mejorando la calidad y cobertura del análisis.
+## 🔄 Metodología General
 
-🔄 Metodología General
-1. Carga y limpieza de datos
-Eliminación de columnas irrelevantes (IDs y códigos).
+1. **Carga y limpieza de datos**  
+   - Eliminación de columnas irrelevantes  
+   - Revisión de nulos y duplicados (no se encontraron)  
+   - Renombrado de columnas  
+   - Conversión de tipos de datos  
+   - Codificación de variables categóricas (`LabelEncoder`)  
 
-Revisión de nulos y duplicados (no se detectaron).
+2. **Análisis exploratorio**  
+   - Boxplots, histogramas, líneas de tendencia  
+   - Análisis por provincia y región  
+   - Heatmap de correlaciones  
 
-Renombrado de columnas al español.
+---
 
-Conversión de tipos (Año: int, Deforestación: float, Región: string).
+## 🤖 Modelos Aplicados
 
-Codificación de variables categóricas con LabelEncoder.
+### 🧩 Aprendizaje Supervisado — `Random Forest Regressor`
+- Variables de entrada: `year`, `parent_region_encoded`  
+- Variable objetivo: `deforestation_hectares`  
+- División: 80% entrenamiento / 20% prueba  
 
-2. Análisis exploratorio
-Boxplots, histogramas y líneas de tendencia para visualizar la evolución de la deforestación.
+**Métricas obtenidas:**  
+- MAE: `684.51`  
+- MSE: `8.568.047`  
+- R²: `0.29`  
 
-Análisis por provincia y región.
+📌 *El modelo capturó correctamente los picos de deforestación, aunque con margen de mejora.*
 
-Aplicación de un heatmap de correlaciones para comprender la relación entre variables numéricas.
+---
 
-🤖 Modelos Aplicados
-🧩 Aprendizaje Supervisado — Random Forest Regressor
-Entrenamiento con: year, parent_region_encoded
+### 🧠 Aprendizaje No Supervisado — `KMeans`
 
-Target: deforestation_hectares
+- Variables utilizadas:  
+  - `total_deforestation`  
+  - `mean_deforestation`  
+  - `years_count`  
+- Normalización con `StandardScaler`  
+- Número de clusters: `3` (según el método del codo)
 
-División de datos: 80% entrenamiento, 20% prueba
+| Cluster | Prom. Anual | Total Ha | Descripción                 |
+|---------|-------------|----------|-----------------------------|
+| 0       | ~899 ha     | ~108k    | Bajo impacto                |
+| 1       | ~4.435 ha   | ~2.3M    | Alto impacto sostenido      |
+| 2       | ~4.710 ha   | ~1.15M   | Impacto reciente, menor historial |
 
-Métricas finales:
+---
 
-MAE: 684.51
+## 📍 Principales Hallazgos
 
-MSE: 8.568.047
+- **Chaco** y **Santiago del Estero** concentran gran parte de la deforestación acumulada.  
+- El período **2008–2012** mostró picos históricos de pérdida de bosque.  
+- Los clusters distinguen regiones con impacto **sostenido** vs. **reciente**.  
+- Las predicciones podrían mejorar incluyendo más variables explicativas.
 
-R²: 0.29
+---
 
-✔️ Aunque el R² fue moderado, el modelo capturó bien los picos temporales de deforestación.
+## 🛠️ Herramientas Utilizadas
 
-🧠 Aprendizaje No Supervisado — KMeans
-Se construyó un dataset por provincia con:
+- 🧮 Python: `Pandas`, `NumPy`, `Matplotlib`, `Seaborn`  
+- 🤖 `Scikit-learn` para modelado  
+- 📓 Google Colab (ejecución de notebooks)  
+- 💾 GitHub (gestión del proyecto)
 
-total_deforestation
+---
 
-mean_deforestation
+## 🚀 Cómo Ejecutar el Proyecto
 
-years_count
+1. Clonar el repositorio:
 
-Normalización de datos con StandardScaler
-
-KMeans con n_clusters = 3, definido mediante el método del codo.
-
-📈 Resultados de Clustering
-Cluster	Promedio Anual	Total Hectáreas	Descripción
-0	~899 ha	~108.000 ha	Bajo impacto
-1	~4.435 ha	~2.3 millones ha	Alto impacto sostenido
-2	~4.710 ha	~1.15 millones ha	Impacto reciente, menor historial
-
-📍 Principales Hallazgos
-Provincias del norte como Chaco y Santiago del Estero concentran gran parte de la deforestación acumulada.
-
-El período 2008–2012 mostró picos históricos en pérdida de bosques.
-
-Los clusters permitieron distinguir regiones críticas con comportamientos distintos: impacto sostenido vs. impacto reciente.
-
-La predicción futura es posible, pero mejoraría incluyendo más variables explicativas.
-
-🛠️ Herramientas Utilizadas
-Google Colab (para ejecución de notebooks)
-
-Python + Pandas, NumPy, Seaborn, Matplotlib
-
-Scikit-learn (para modelos de ML)
-
-GitHub (gestión del proyecto)
-
-🚀 Cómo Ejecutar el Proyecto
-Clonar el repositorio:
-
-bash
-Copiar
-Editar
+```bash
 git clone https://github.com/tu_usuario/deforestacion-argentina.git
 cd deforestacion-argentina
-Abrir los notebooks en Google Colab o Jupyter.
+```
 
-Instalar dependencias si lo ejecutás localmente:
+2. Abrir los notebooks en **Google Colab** o **Jupyter Notebook**
 
-bash
-Copiar
-Editar
+3. Si lo ejecutás localmente, instalá las dependencias:
+
+```bash
 pip install pandas numpy matplotlib seaborn scikit-learn
-🌱 Futuro del Proyecto
-Este trabajo sentó una base sólida para seguir profundizando en el análisis ambiental.
+```
 
-🔮 Posibles mejoras futuras:
-Incluir variables climáticas, económicas o de uso del suelo.
+---
 
-Agregar imágenes satelitales (NDVI) o datos geoespaciales.
+## 🌱 Futuro del Proyecto
 
-Analizar la relación con reservas naturales y áreas protegidas.
+Este trabajo sienta una base sólida para seguir profundizando en el análisis ambiental.
 
-Aplicar modelos más complejos: XGBoost, LightGBM, redes neuronales.
+🔮 **Posibles mejoras:**
+- Incluir variables climáticas, económicas o de uso del suelo  
+- Incorporar imágenes satelitales (NDVI) y datos geoespaciales  
+- Analizar la relación con reservas naturales  
+- Aplicar modelos más complejos: `XGBoost`, `LightGBM`, redes neuronales  
+- Probar técnicas como PCA, `DBSCAN`, `Agglomerative Clustering`
 
-Usar técnicas de reducción de dimensionalidad (PCA) y nuevos algoritmos de clustering (DBSCAN, Agglomerative).
+---
 
-📌 Conclusión
-Este proyecto demostró cómo herramientas de ciencia de datos pueden aportar conocimiento valioso sobre procesos ambientales complejos. A través del análisis de datos abiertos y técnicas de machine learning, se lograron visualizar patrones, agrupar territorios y generar predicciones útiles.
+## 📌 Conclusión
 
-🌎 La deforestación es un problema urgente. Entenderla es el primer paso para detenerla.
+Este proyecto demuestra cómo la ciencia de datos puede ayudar a entender procesos ambientales complejos.
 
+> 🌎 **La deforestación es un problema urgente. Entenderla es el primer paso para detenerla.**
